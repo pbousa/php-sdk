@@ -1,6 +1,6 @@
 {
-    "name": "pbousa/php-sdk",
-    "description": "PBOUSA SDK for PHP",
+    "name": "pbo/php-sdk",
+    "description": "Photo Booth Options SDK for PHP",
     "keywords": ["pbo","pbousa","photoboothoptions","sdk","api"],
     "license": "Apache-2.0",
     "authors": [
@@ -25,7 +25,7 @@
     },
     "autoload": {
         "psr-4": {
-            "PBO\\": "src/"
+            "Pbo\\": "src/"
         }
     }
 }
