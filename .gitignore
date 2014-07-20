@@ -3,5 +3,4 @@
 phpunit.xml
 phpunit.functional.xml
 .DS_Store
-composer.lock
 vendor
