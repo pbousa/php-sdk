@@ -1,0 +1,31 @@
+{
+    "name": "pbousa/php-sdk",
+    "description": "PBOUSA SDK for PHP",
+    "keywords": ["pbo","pbousa","photoboothoptions","sdk","api"],
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Bret Mette",
+            "email": "bret.mette@rowdydesign.com",
+            "homepage": "http://rowdydesign.com",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/pbousa/php-sdk/issues"
+    },
+    "require": {
+        "php": ">=5.3.3",
+        "guzzle/guzzle": ">=3.7.0,<=3.9.9"
+    },
+    "require-dev": {
+        "monolog/monolog": "1.4.*",
+        "phpunit/phpunit": "4.*",
+        "symfony/class-loader": "2.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "PBO\\": "src/"
+        }
+    }
+}
