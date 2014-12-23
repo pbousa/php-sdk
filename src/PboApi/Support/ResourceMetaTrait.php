@@ -65,8 +65,8 @@ trait ResourceMetaTrait {
 
                 $exists = true;
                 $r_meta = $meta;
-			}
-		}
+            }
+        }
 
         if (!$exists) {
 
