@@ -31,5 +31,6 @@ print_r($users);
 * [Issues][sdk-issues] – Report issues and submit pull requests (see [Apache 2.0 License][sdk-license])
 
 [sdk-issues]: https://github.com/pbousa/php-sdk/issues
+[sdk-license]: http://www.apache.org/licenses/LICENSE-2.0
 
 [pbousa]: http://www.pbousa.com/
