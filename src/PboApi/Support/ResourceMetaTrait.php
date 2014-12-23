@@ -7,7 +7,7 @@
  * You may not use this file except in compliance with the License.
  * A copy of the License is located at
  *
- * http://aws.amazon.com/apache2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * or in the "license" file accompanying this file. This file is distributed
  * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
@@ -53,9 +53,9 @@ trait ResourceMetaTrait {
      */
     public function setMeta($key, $value)
     {
-		$meta = new \stdClass();
-		$meta->key = $key;
-		$meta->value = $value;
+        $meta = new \stdClass();
+        $meta->key = $key;
+        $meta->value = $value;
 
         $exists = false;
 
@@ -63,14 +63,14 @@ trait ResourceMetaTrait {
 
             if ($r_meta->key == $meta->key) {
 
-				$exists = true;
-				$r_meta = $meta;
+                $exists = true;
+                $r_meta = $meta;
 			}
 		}
 
-		if (!$exists) {
+        if (!$exists) {
 
-			$this->_attributes['metas'][] = $meta;
+            $this->_attributes['metas'][] = $meta;
         }
 
 
