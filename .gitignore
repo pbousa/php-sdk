@@ -1,6 +1,15 @@
 *.phar
 *.zip
+build/artifacts
 phpunit.xml
 phpunit.functional.xml
+test_services.json
+Config
+./Makefile
+.idea
+atlassian-ide-plugin.xml
 .DS_Store
+.swp
+.build
+composer.lock
 vendor
