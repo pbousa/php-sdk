@@ -93,11 +93,11 @@ trait ResourceMetaTrait {
 
                 if (stripos($meta->key, $group . '.') === 0) {
 
-                    $metas[str_ireplace($group . '.', '', $meta->key)] = $meta->value;
+                    $metas[] = $meta;
                 }
             } else {
 
-                $metas[$meta->key] = $value;
+                $metas[] = $meta;
             }
         }
 
