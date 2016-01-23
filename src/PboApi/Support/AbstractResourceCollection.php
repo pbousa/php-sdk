@@ -83,7 +83,7 @@ abstract class AbstractResourceCollection implements ArrayAccess, IteratorAggreg
 
         $response = $this->sendRequest('GET', $this->resource, $params);
 
-        if (is_object($response) && property_exists($response, 'success') && $response->success = true) {
+        if (is_object($response)) {
             if (property_exists($response, 'data') && is_array($response->data) && count($response->data) > 0) {
                 $this->_items = $response->data;
             }
@@ -127,8 +127,6 @@ abstract class AbstractResourceCollection implements ArrayAccess, IteratorAggreg
      */
     public function count(array $params = array())
     {
-        $count = 0;
-
         $params['exclude_data'] = 'true';
         $this->get($params);
 
