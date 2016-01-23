@@ -1,4 +1,4 @@
-<?php
+<?php namespace PboApi\Collections;
 
 /**
  * Copyright 2014 Photo Booth Options. All Rights Reserved.
@@ -18,18 +18,11 @@
  * @author Bret Mette <bret.mette@rowdydesign.com>
  */
 
-
-namespace PboApi\Collections;
-
-
 use PboApi\Support\AbstractResourceCollection;
 use PboApi\Support\ResourceCollectionInterface;
 
-
 class Notifications extends AbstractResourceCollection implements ResourceCollectionInterface {
 
-
     protected $resource = 'notifications';
-
 
 }
