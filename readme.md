@@ -37,7 +37,8 @@ $cameraData = $machine->getMetas('hardware.camera');
 
 
 // Update a single meta data entry
-$machine->setMeta('my.meta.key', 'this is some revealing information');
+$meta = new \PboApi\Models\Meta('my.meta.key', 'this is some revealing information');
+$machine->setMeta($meta);
 
 // Update multiple meta data entries
 $machine->setMetas([
