@@ -1,4 +1,4 @@
-<?php
+<?php namespace PboApi\Services;
 
 /**
  * Copyright 2014 Photo Booth Options. All Rights Reserved.
@@ -18,30 +18,22 @@
  * @author Bret Mette <bret.mette@rowdydesign.com>
  */
 
-
-namespace PboApi\Services;
-
-
 class ClientService {
-
 
     /**
      * @var string
      */
     protected $apiToken;
 
-
     /**
      * @var string
      */
     protected $apiUrl;
 
-
     /**
      * @var resource
      */
     protected $curl;
-
 
     /**
      * Initialize the class
@@ -53,13 +45,9 @@ class ClientService {
 		curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
 
-        /**
-         * TODO : Find a better way to handle token and url
-         */
-        $this->apiToken = PBOAPI_COMMON_TOKEN;
-        $this->apiUrl = PBOAPI_COMMON_URL;
+        $this->apiToken = \PboApi\Common\Client::getToken();
+        $this->apiUrl = \PboApi\Common\Client::getUrl();
     }
-
 
     /**
      * @return string
@@ -69,7 +57,6 @@ class ClientService {
         return $this->apiToken;
     }
 
-
     /**
      * @return string
      */
@@ -77,7 +64,6 @@ class ClientService {
     {
         return $this->apiUrl;
     }
-
 
     /**
      * @param string $resource
@@ -88,7 +74,6 @@ class ClientService {
     {
         return $this->getApiUrl() . $resource . '?token=' . $this->getApiToken() . '&';
     }
-
 
     /**
      * @param string $type
@@ -124,7 +109,6 @@ class ClientService {
 				break;
 		}
 
-
 		/**
 		 * Send the request
 		 *
@@ -133,12 +117,9 @@ class ClientService {
 		 */
 		@$result = curl_exec($this->curl);
 
-
 		if (isset($result) && strlen($result)) {
-
 			@$response = json_decode($result);
 		}
-
 
 		return $response;
     }

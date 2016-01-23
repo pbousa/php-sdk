@@ -40,28 +40,21 @@ $cameraData = $machine->getMetas('hardware.camera');
 $machine->setMeta('my.meta.key', 'this is some revealing information');
 
 // Update multiple meta data entries
-$metas = array();
-
-$meta = new stdClass();
-$meta->key = 'my.meta.key';
-$meta->value = 'this is some revealing information';
-$metas[] = $meta;
-
-$meta = new stdClass();
-$meta->key = 'other.meta.key';
-$meta->value = 'I need this for later';
-$metas[] = $meta;
-
-$machine->setMetas($metas);
+$machine->setMetas([
+    new \PboApi\Models\Meta('my.meta.key', 'this is some revealing information'),
+    new \PboApi\Models\Meta('other.meta.key', 'I need this for later'),
+]);
 
 // You can also chain them like so...
 $machine->setMeta('my.meta.key', 'this is some revealing information')
-->setMeta('other.meta.key', 'I need this for later')
-->setMeta('very.important.data', 'eat breakfast every day');
+    ->setMeta('other.meta.key', 'I need this for later')
+    ->setMeta('very.important.data', 'eat breakfast every day');
 
 // Or combine both
 $machine->setMeta('my.meta.key', 'this is some revealing information')
-->setMetas($metas);
+    ->setMetas([
+        new \PboApi\Models\Meta('other.meta.key', 'I need this for later'),
+    ]);
 ```
 
 

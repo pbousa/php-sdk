@@ -1,4 +1,4 @@
-<?php
+<?php namespace PboApi\Support;
 
 /**
  * Copyright 2014 Photo Booth Options. All Rights Reserved.
@@ -18,12 +18,7 @@
  * @author Bret Mette <bret.mette@rowdydesign.com>
  */
 
-
-namespace PboApi\Support;
-
-
 interface ResourceInterface {
-
 
     /**
      * Creates a resource
@@ -34,14 +29,12 @@ interface ResourceInterface {
      */
     public function create(array $attributes = array());
 
-
     /**
      * Deletes a resource
      *
      * @return bool
      */
     public function delete();
-
 
     /**
      * Get a resource
@@ -52,14 +45,12 @@ interface ResourceInterface {
      */
     public function get(array $params = array());
 
-
     /**
      * Save a resource
      *
      * @return bool
      */
     public function save();
-
 
     /**
      * Update a resource
@@ -69,6 +60,5 @@ interface ResourceInterface {
      * @return bool
      */
     public function update(array $attributes = array());
-
 
 }

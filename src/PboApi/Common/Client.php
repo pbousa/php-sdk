@@ -1,4 +1,4 @@
-<?php
+<?php namespace PboApi\Common;
 
 /**
  * Copyright 2014 Photo Booth Options. All Rights Reserved.
@@ -18,13 +18,8 @@
  * @author Bret Mette <bret.mette@rowdydesign.com>
  */
 
-
-namespace PboApi\Common;
-
-
 use PboApi\Models;
 use PboApi\Collections;
-
 
 class Client {
 
@@ -33,18 +28,15 @@ class Client {
      */
     protected $mode;
 
+    /**
+     * @var string
+     */
+    protected static $token;
 
     /**
      * @var string
      */
-    protected $token;
-
-
-    /**
-     * @var string
-     */
-    protected $url;
-
+    protected static $url;
 
     /**
      * @param string $token
@@ -56,31 +48,20 @@ class Client {
         $this->mode = $mode;
 
         if (isset($url)) {
-
             $this->url = $url;
         } else {
-
             switch (strtolower($this->mode)) {
-
                 default:
                 case 'production':
-                    $this->url = 'https://api.photoboothoptions.com/v2/';
+                    $this->url = 'https://api.photoboothoptions.com/v2.1.0/';
                     break;
 
                 case 'sandbox':
-                    $this->url = 'https://sandbox.api.photoboothoptions.com/v2/';
+                    $this->url = 'https://sandbox.api.photoboothoptions.com/v2.1.0/';
                     break;
-
             }
         }
-
-        /**
-         * TODO : Find a better way to handle the token and url
-         */
-        define('PBOAPI_COMMON_TOKEN', $this->token);
-        define('PBOAPI_COMMON_URL', $this->url);
     }
-
 
     /**
      * @param string $key
@@ -90,23 +71,38 @@ class Client {
     public function __get($key)
     {
         if (substr($key, -1) == 's') {
-
             $key = '\PboApi\Collections\\' . $key;
         } else {
-
             $key = '\PboApi\Models\\' . $key;
         }
 
         if (class_exists($key)) {
-
             $class = new $key();
 
             return $class;
         }
 
-
         throw new \Exception('\'' . $key . '\' is not a valid resource.');
     }
 
+    /**
+     * Get token
+     *
+     * @return string
+     */
+    public static function getToken()
+    {
+        return self::$token;
+    }
+
+    /**
+     * Get url
+     *
+     * @return string
+     */
+    public static function getUrl()
+    {
+        return self::$url;
+    }
 
 }

@@ -1,4 +1,4 @@
-<?php
+<?php namespace PboApi\Support;
 
 /**
  * Copyright 2014 Photo Booth Options. All Rights Reserved.
@@ -18,12 +18,7 @@
  * @author Bret Mette <bret.mette@rowdydesign.com>
  */
 
-
-namespace PboApi\Support;
-
-
 trait ResourceMetaTrait {
-
 
     /**
      * @param string $key;
@@ -32,51 +27,46 @@ trait ResourceMetaTrait {
      */
     public function getMeta($key)
     {
-        foreach ($this->_attributes['metas'] as $meta) {
+        $meta = null;
 
-            if ($meta->key == $key) {
-
-                return $meta;
+        foreach ($this->_attributes['metas'] as $r_meta) {
+            if ($r_meta->getKey() == $key) {
+                $meta = $r_meta;
             }
         }
 
-
-        return null;
+        return $meta;
     }
 
-
     /**
-     * @param string $key
+     * @param mixed $metaOrKey
      * @param string $value
      *
      * @return ResourceInterface
      */
-    public function setMeta($key, $value)
+    public function setMeta($metaOrKey, $value = null)
     {
-        $meta = new \stdClass();
-        $meta->key = $key;
-        $meta->value = $value;
+        if (is_object($metaOrKey) && is_a('\PboApi\Models\Meta')) {
+            $meta = $metaOrKey;
+        } else {
+            $meta = new \PboApi\Models\Meta($key, $value);
+        }
 
         $exists = false;
 
         foreach ($this->_attributes['metas'] as &$r_meta) {
-
-            if ($r_meta->key == $meta->key) {
-
-                $exists = true;
+            if ($r_meta->getKey() == $meta->getKey()) {
                 $r_meta = $meta;
+                $exists = true;
             }
         }
 
         if (!$exists) {
-
             $this->_attributes['metas'][] = $meta;
         }
 
-
         return $this;
     }
-
 
     /**
      * @param string $group
@@ -88,22 +78,17 @@ trait ResourceMetaTrait {
         $metas = array();
 
         foreach ($this->_attributes['metas'] as $meta) {
-
             if (strlen($group)) {
-
-                if (stripos($meta->key, $group . '.') === 0) {
-
+                if (stripos($meta->getKey(), $group . '.') === 0) {
                     $metas[] = $meta;
                 }
             } else {
-
                 $metas[] = $meta;
             }
         }
 
         return $metas;
     }
-
 
     /**
      * @param array $metas
@@ -113,13 +98,10 @@ trait ResourceMetaTrait {
     public function setMetas(array $metas = array())
     {
         foreach ($metas as $meta) {
-
-            $this->setMeta($meta->key, $meta->value);
+            $this->setMeta($meta);
         }
-
 
         return $this;
     }
-
 
 }
