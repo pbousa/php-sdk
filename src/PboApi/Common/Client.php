@@ -44,20 +44,20 @@ class Client {
      */
     public function __construct($token, $mode = 'production', $url = null)
     {
-        $this->token = $token;
+        self::$token = $token;
         $this->mode = $mode;
 
         if (isset($url)) {
-            $this->url = $url;
+            self::$url = $url;
         } else {
             switch (strtolower($this->mode)) {
                 default:
                 case 'production':
-                    $this->url = 'https://api.photoboothoptions.com/v2.1.0/';
+                    self::$url = 'https://api.photoboothoptions.com/v2.1.0/';
                     break;
 
                 case 'sandbox':
-                    $this->url = 'https://sandbox.api.photoboothoptions.com/v2.1.0/';
+                    self::$url = 'https://sandbox.api.photoboothoptions.com/v2.1.0/';
                     break;
             }
         }
