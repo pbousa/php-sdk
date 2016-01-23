@@ -1,4 +1,4 @@
-<?php
+<?php namespace PboApi\Support;
 
 /**
  * Copyright 2014 Photo Booth Options. All Rights Reserved.
@@ -18,60 +18,47 @@
  * @author Bret Mette <bret.mette@rowdydesign.com>
  */
 
-
-namespace PboApi\Support;
-
-
 use ArrayAccess;
 use ArrayIterator;
 use IteratorAggregate;
 use PboApi\Services\ClientService;
 
-
 abstract class AbstractResourceCollection implements ArrayAccess, IteratorAggregate {
-
 
     /**
      * @var array
      */
     protected $_items = array();
 
-
     /**
      * @var int
      */
     protected $currentPage = 1;
-
 
     /**
      * @var int
      */
     protected $lastPage = 1;
 
-
     /**
      * @var int
      */
     protected $perPage = 1000;
-
 
     /**
      * @var array
      */
     protected $requestParms = array();
 
-
     /**
      * @var int
      */
     protected $serverItemCount;
 
-
     /**
      * @var \PboApi\Services\ClientService
      */
     protected $clientService;
-
 
     /**
      * Initalize the class
@@ -85,7 +72,6 @@ abstract class AbstractResourceCollection implements ArrayAccess, IteratorAggreg
         $this->clientService = new ClientService();
     }
 
-
     /**
      * @param array $params
      *
@@ -98,38 +84,30 @@ abstract class AbstractResourceCollection implements ArrayAccess, IteratorAggreg
         $response = $this->sendRequest('GET', $this->resource, $params);
 
         if (is_object($response) && property_exists($response, 'success') && $response->success = true) {
-
             if (property_exists($response, 'data') && is_array($response->data) && count($response->data) > 0) {
-
                 $this->_items = $response->data;
             }
 
             if (property_exists($response, 'total')) {
-
                 $this->serverItemCount = (int)$response->total;
 
                 if ($this->serverItemCount < 0) {
-
                     $this->serverItemCount = 0;
                 }
             }
 
             if (property_exists($response, 'current_page')) {
-
                 $this->currentPage = (int)$response->current_page;
 
                 if ($this->currentPage < 1) {
-
                     $this->currentPage = 1;
                 }
             }
 
             if (property_exists($response, 'last_page')) {
-
                 $this->lastPage = (int)$response->last_page;
 
                 if ($this->lastPage < 1) {
-
                     $this->lastPage = 1;
                 }
             }
@@ -137,10 +115,25 @@ abstract class AbstractResourceCollection implements ArrayAccess, IteratorAggreg
             $this->requestParams = $params;
         }
 
-
         return $this;
     }
 
+    /**
+     * Get resource count
+     *
+     * @param array $params
+     *
+     * @return int
+     */
+    public function count(array $params = array())
+    {
+        $count = 0;
+
+        $params['exclude_data'] = 'true';
+        $this->get($params);
+
+        return $this->serverItemCount;
+    }
 
     /**
      * Get next page of data
@@ -150,7 +143,6 @@ abstract class AbstractResourceCollection implements ArrayAccess, IteratorAggreg
     public function getNext()
     {
         if ($this->lastPage > $this->currentPage) {
-
             $this->requestParams['page'] = $this->currentPage + 1;
 
             return $this->get($this->requestParams);
@@ -160,7 +152,6 @@ abstract class AbstractResourceCollection implements ArrayAccess, IteratorAggreg
         return null;
     }
 
-
     /**
      * @param int $offset
      * @param mixed $value
@@ -168,14 +159,11 @@ abstract class AbstractResourceCollection implements ArrayAccess, IteratorAggreg
     public function offsetSet($offset, $value)
     {
         if (is_null($offset)) {
-
             $this->_items[] = $value;
         } else {
-
             $this->_items[$offset] = $value;
         }
     }
-
 
     /**
      * @param int $offset
@@ -187,7 +175,6 @@ abstract class AbstractResourceCollection implements ArrayAccess, IteratorAggreg
         return isset($this->_items[$offset]);
     }
 
-
     /**
      * @param int $offset
      */
@@ -195,7 +182,6 @@ abstract class AbstractResourceCollection implements ArrayAccess, IteratorAggreg
     {
         unset($this->_items[$offset]);
     }
-
 
     /**
      * @param int $offset
@@ -207,7 +193,6 @@ abstract class AbstractResourceCollection implements ArrayAccess, IteratorAggreg
         return isset($this->_items[$offset]) ? $this->_items[$offset] : null;
     }
 
-
     /**
      * @return Traversable
      */
@@ -215,7 +200,6 @@ abstract class AbstractResourceCollection implements ArrayAccess, IteratorAggreg
     {
         return new ArrayIterator($this->_items);
     }
-
 
     /**
      * Send API request
@@ -230,6 +214,5 @@ abstract class AbstractResourceCollection implements ArrayAccess, IteratorAggreg
     {
         return $this->clientService->sendRequest($type, $resource, $payload);
     }
-
 
 }

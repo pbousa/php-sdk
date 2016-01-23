@@ -74,12 +74,10 @@ abstract class AbstractResource {
          * Get a resource attribute
          */
         if (strtolower(substr($name, 0, 3)) == 'get' && count($arguments) === 0) {
-
             $key = str_replace('get', '', $name);
             $key = $inflector->underscore($key);
 
             if (isset($this->_attributes) && is_array($this->_attributes) && array_key_exists($key, $this->_attributes)) {
-
                 return $this->_attributes[$key];
             }
         }
@@ -94,12 +92,10 @@ abstract class AbstractResource {
             $key = $inflector->underscore($key);
 
             if (isset($this->_attributes) && is_array($this->_attributes) && array_key_exists($key, $this->_attributes)) {
-
                 $this->_attributes[$key] = $arguments[0];
             }
         }
     }
-
 
     /**
      * Creates a resource
@@ -115,18 +111,14 @@ abstract class AbstractResource {
         $response = $this->sendRequest('POST', $this->resource, $attributes);
 
         if (is_object($response) && property_exists($response, 'success') && $response->success = true) {
-
             if (property_exists($response, 'data') && is_object($response->data) && property_exists($response->data, 'resource') && is_object($response->data->resource)) {
-
                 $resource = $response->data->resource;
 
                 foreach ($resource as $key=>$value) {
-
                     $this->_attributes[$key] = $value;
                 }
             }
         }
-
 
         return isset($resource) ? $this : null;
     }
@@ -144,14 +136,11 @@ abstract class AbstractResource {
         $response = $this->sendRequest('DELETE', $this->resource, array($this->primaryKey => call_user_func(array($this, 'get' . $this->primaryKey))));
 
         if (is_object($response) && property_exists($response, 'success') && $response->success = true) {
-
             $success = true;
         }
 
-
         return $success;
     }
-
 
     /**
      * Get a resource
@@ -167,19 +156,15 @@ abstract class AbstractResource {
         $response = $this->sendRequest('GET', $this->resource, $params);
 
         if (is_object($response) && property_exists($response, 'data') && is_array($response->data) && count($response->data) > 0 && is_object($response->data[0])) {
-
             $resource = $response->data[0];
 
             foreach ($resource as $key=>$value) {
-
                 $this->_attributes[$key] = $value;
             }
         }
 
-
         return isset($resource) ? $this : null;
     }
-
 
     /**
      * Save a resource
@@ -190,7 +175,6 @@ abstract class AbstractResource {
     {
         return $this->update($this->_attributes);
     }
-
 
     /**
      * Update a resource
@@ -208,14 +192,11 @@ abstract class AbstractResource {
         $response = $this->sendRequest('PUT', $this->resource, $attributes);
 
         if (is_object($response) && property_exists($response, 'success') && $response->success = true) {
-
             $success = true;
         }
 
-
         return $success;
     }
-
 
     /**
      * Send API request
@@ -230,7 +211,6 @@ abstract class AbstractResource {
     {
         return $this->clientService->sendRequest($type, $resource, $payload);
     }
-
 
 }
 
