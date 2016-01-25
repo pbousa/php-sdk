@@ -187,7 +187,9 @@ abstract class AbstractResource {
     {
         $success = false;
 
-        $attributes[$this->primaryKey] = call_user_func(array($this, 'get' . $this->primaryKey));
+        if (!array_key_exists($this->primaryKey, $attributes) || (array_key_exists($this->primaryKey, $attributes) && strlen($attributes[$this->primaryKey]) <= 0)) {
+            $attributes[$this->primaryKey] = call_user_func(array($this, 'get' . $this->primaryKey));
+        }
 
         $response = $this->sendRequest('PUT', $this->resource, $attributes);
 
