@@ -29,7 +29,7 @@ trait ResourceMetaTrait {
      */
     public function getMeta($key)
     {
-        $meta = null;
+        $meta = new Meta($key, '');
 
         foreach ($this->_attributes['metas'] as $r_meta) {
             $r_meta = new Meta($r_meta->key, $r_meta->value);
