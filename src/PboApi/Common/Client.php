@@ -71,9 +71,9 @@ class Client {
     public function __get($key)
     {
         if (substr($key, -1) == 's') {
-            $key = '\PboApi\Collections\\' . $key;
+            $key = '\PboApi\Collections\\' . ucfirst($key);
         } else {
-            $key = '\PboApi\Models\\' . $key;
+            $key = '\PboApi\Models\\' . ucfirst($key);
         }
 
         if (class_exists($key)) {
