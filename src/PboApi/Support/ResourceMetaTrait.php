@@ -18,6 +18,8 @@
  * @author Bret Mette <bret.mette@rowdydesign.com>
  */
 
+use PboApi\Models\Meta;
+
 trait ResourceMetaTrait {
 
     /**
@@ -30,6 +32,8 @@ trait ResourceMetaTrait {
         $meta = null;
 
         foreach ($this->_attributes['metas'] as $r_meta) {
+            $r_meta = new Meta($r_meta->key, $r_meta->value);
+
             if ($r_meta->getKey() == $key) {
                 $meta = $r_meta;
             }
