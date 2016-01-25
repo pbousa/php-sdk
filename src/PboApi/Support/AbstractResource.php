@@ -110,12 +110,14 @@ abstract class AbstractResource {
 
         $response = $this->sendRequest('POST', $this->resource, $attributes);
 
-        if (is_object($response) && property_exists($response, 'success') && $response->success = true) {
-            if (property_exists($response, 'data') && is_object($response->data) && property_exists($response->data, 'resource') && is_object($response->data->resource)) {
-                $resource = $response->data->resource;
+        if (is_object($response) && property_exists($response, 'success') && $response->success == 'true') {
+            if (property_exists($response, 'data') && is_array($response->data) && count($response->data)) {
+                if (is_object($response->data[0]) && property_exists($response->data[0], 'resource') && is_object($response->data[0]->resource)) {
+                    $resource = $response->data->resource;
 
-                foreach ($resource as $key=>$value) {
-                    $this->_attributes[$key] = $value;
+                    foreach ($resource as $key=>$value) {
+                        $this->_attributes[$key] = $value;
+                    }
                 }
             }
         }
