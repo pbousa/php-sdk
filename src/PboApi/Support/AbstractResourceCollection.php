@@ -119,6 +119,16 @@ abstract class AbstractResourceCollection implements ArrayAccess, IteratorAggreg
     }
 
     /**
+     * To Array
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return iterator_to_array($this->getIterator());
+    }
+
+    /**
      * Get resource count
      *
      * @param array $params
