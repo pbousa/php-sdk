@@ -22,6 +22,7 @@ use ArrayAccess;
 use ArrayIterator;
 use IteratorAggregate;
 use PboApi\Services\ClientService;
+use PboApi\Factories\ResourceFactory;
 
 abstract class AbstractResourceCollection implements ArrayAccess, IteratorAggregate {
 
@@ -85,7 +86,11 @@ abstract class AbstractResourceCollection implements ArrayAccess, IteratorAggreg
 
         if (is_object($response)) {
             if (property_exists($response, 'data') && is_array($response->data) && count($response->data) > 0) {
-                $this->_items = $response->data;
+                $this->_items = array();
+
+                foreach ($response->data as $jsonObject) {
+                    $this->_items[] = ResourceFactory::makeFromJsonObject($jsonObject, $this->resource);
+                }
             }
 
             if (property_exists($response, 'total')) {

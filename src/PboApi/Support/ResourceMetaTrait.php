@@ -31,11 +31,17 @@ trait ResourceMetaTrait {
     {
         $meta = new Meta($key, '');
 
-        foreach ($this->_attributes['metas'] as $r_meta) {
-            $r_meta = new Meta($r_meta->key, $r_meta->value);
+        if (array_key_exists('metas', $this->_attributes) && is_array($this->_attributes['metas'])) {
+            foreach ($this->_attributes['metas'] as $r_meta) {
+                if (is_object($r_meta) && method_exists($r_meta, 'getKey') && method_exists($r_meta, 'getValue')) {
+                    $r_meta = new Meta($r_meta->getKey(), $r_meta->getValue());
+                } else {
+                    $r_meta = new Meta($r_meta->key, $r_meta->value);
+                }
 
-            if ($r_meta->getKey() == $key) {
-                $meta = $r_meta;
+                if ($r_meta->getKey() == $key) {
+                    $meta = $r_meta;
+                }
             }
         }
 
@@ -52,20 +58,28 @@ trait ResourceMetaTrait {
     {
         if (is_object($metaOrKey) && is_a('\PboApi\Models\Meta')) {
             $meta = $metaOrKey;
+        } else if (is_array($metaOrKey)) {
+            $meta = new \PboApi\Models\Meta($metaOrKey['key'], $metaOrKey['value']);
         } else {
-            $meta = new \PboApi\Models\Meta($key, $value);
+            $meta = new \PboApi\Models\Meta($metaOrKey, $value);
         }
 
         $exists = false;
 
-        foreach ($this->_attributes['metas'] as &$r_meta) {
-            if ($r_meta->getKey() == $meta->getKey()) {
-                $r_meta = $meta;
-                $exists = true;
+        if (array_key_exists('metas', $this->_attributes)  && is_array($this->_attributes['metas'])) {
+            foreach ($this->_attributes['metas'] as &$r_meta) {
+                if ($r_meta->getKey() == $meta->getKey()) {
+                    $r_meta = $meta;
+                    $exists = true;
+                }
             }
         }
 
         if (!$exists) {
+            if (!array_key_exists('metas', $this->_attributes) || (array_key_exists('metas', $this->_attributes) && !is_array($this->_attributes['metas']))) {
+                $this->_attributes['metas'] = array();
+            }
+
             $this->_attributes['metas'][] = $meta;
         }
 

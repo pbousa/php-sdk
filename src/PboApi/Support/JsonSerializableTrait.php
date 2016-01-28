@@ -1,4 +1,4 @@
-<?php namespace PboApi\Models;
+<?php namespace PboApi\Support;
 
 /**
  * Copyright 2014 Photo Booth Options. All Rights Reserved.
@@ -18,14 +18,17 @@
  * @author Bret Mette <bret.mette@rowdydesign.com>
  */
 
-use PboApi\Support\AbstractResource;
-use PboApi\Support\ResourceInterface;
-use PboApi\Support\ResourceMetaTrait;
+trait JsonSerializableTrait {
 
-class Machine extends AbstractResource implements ResourceInterface {
+    public function deserializeJson($json)
+    {
+        $data = json_decode($json, true);
 
-    use ResourceMetaTrait;
+        foreach ($data as $key => $value) {
+            $method = 'set' . $key;
 
-    protected $resource = 'machines';
+            $this->{$method}($value);
+        }
+    }
 
 }

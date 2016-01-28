@@ -20,6 +20,7 @@
 
 use PboApi\Models;
 use PboApi\Collections;
+use PboApi\Factories\ResourceFactory;
 
 class Client {
 
@@ -70,19 +71,7 @@ class Client {
      */
     public function __get($key)
     {
-        if (substr($key, -1) == 's') {
-            $key = '\PboApi\Collections\\' . ucfirst($key);
-        } else {
-            $key = '\PboApi\Models\\' . ucfirst($key);
-        }
-
-        if (class_exists($key)) {
-            $class = new $key();
-
-            return $class;
-        }
-
-        throw new \Exception('\'' . $key . '\' is not a valid resource.');
+        return ResourceFactory::make($key);
     }
 
     /**

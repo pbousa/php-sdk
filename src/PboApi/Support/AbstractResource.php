@@ -1,4 +1,4 @@
-<?php
+<?php namespace PboApi\Support;
 
 /**
  * Copyright 2014 Photo Booth Options. All Rights Reserved.
@@ -18,40 +18,32 @@
  * @author Bret Mette <bret.mette@rowdydesign.com>
  */
 
-
-namespace PboApi\Support;
-
-
 use ICanBoogie\Inflector;
 use PboApi\Services\ClientService;
 
-
 abstract class AbstractResource {
 
+    use JsonSerializableTrait;
 
     /**
      * @var array
      */
     protected $_attributes = array();
 
-
     /**
      * @var \PboApi\Services\ClientService
      */
     protected $clientService;
-
 
     /**
      * @var string
      */
     protected $resource;
 
-
     /**
      * @var string
      */
     protected $primaryKey = 'uuid';
-
 
     /**
      * Initialize the class
@@ -60,7 +52,6 @@ abstract class AbstractResource {
     {
         $this->clientService = new ClientService();
     }
-
 
     /**
      * @param string $name
@@ -82,18 +73,18 @@ abstract class AbstractResource {
             }
         }
 
-
         /**
          * Set a resource attribute
          */
         if (strtolower(substr($name, 0, 3)) == 'set' && count($arguments) === 1) {
-
             $key = str_replace('set', '', $name);
             $key = $inflector->underscore($key);
 
-            if (isset($this->_attributes) && is_array($this->_attributes) && array_key_exists($key, $this->_attributes)) {
-                $this->_attributes[$key] = $arguments[0];
+            if (!isset($this->_attributes) || (isset($this->_attributes) && !is_array($this->_attributes))) {
+                $this->_attributes = array();
             }
+
+            $this->_attributes[$key] = $arguments[0];
         }
     }
 
@@ -124,7 +115,6 @@ abstract class AbstractResource {
 
         return isset($resource) ? $this : null;
     }
-
 
     /**
      * Deletes a resource
